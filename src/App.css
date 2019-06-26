@@ -1,9 +1,12 @@
 .App {
   display: flex;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   flex-direction: column;
   align-items: center;
+  background: lightslategray;
+}
+body {
   background: lightslategray;
 }
 
@@ -120,6 +123,9 @@
 
 .content {
   transition: ease;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .errorBox {
@@ -135,4 +141,22 @@
   -webkit-box-shadow: 3px 4px 37px -12px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 3px 4px 37px -12px rgba(0, 0, 0, 0.5);
   box-shadow: 3px 4px 37px -12px rgba(0, 0, 0, 0.5);
+}
+.gifCard {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  background: #fff;
+  padding: 5px;
+  margin: 20px;
+  transition: all 0.2s;
+  box-shadow: 3px 4px 37px -12px rgba(0, 0, 0, 0.5);
+}
+
+.gifCard:hover {
+  box-shadow: 3px 4px 37px -12px rgba(0, 0, 0, 1);
+  transform: scale(1.1) rotateZ(2deg);
 }
