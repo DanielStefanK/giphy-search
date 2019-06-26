@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+
+import SearchBox from "./SearchBox";
+import { Promise } from "q";
 
 const App: React.FC = () => {
+  const [lastQuery, setLastQuery] = useState("");
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const onSubmit = async (e: any) => {
+    if (lastQuery !== e) {
+      setLastQuery(e);
+      setError(false);
+      setLoading(true);
+      loadData(e)
+        .then(data => {
+          console.log(data);
+        })
+        .catch(err => {
+          console.log("err");
+          setError(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="searchHeader">
+        <SearchBox onSubmit={onSubmit} loading={isLoading} />
+      </div>
+      <div className="contentWrapper">
+        {error ? (
+          <div className="errorBox content">Could not fetch GIFs</div>
+        ) : (
+          "content"
+        )}
+      </div>
     </div>
   );
-}
+};
+
+const loadData = (query: string): Promise<any> => {
+  return Promise<any>((resolve, reject) => {
+    if (query === "query") {
+      resolve({ data: "test" });
+    } else {
+      reject();
+    }
+  });
+};
 
 export default App;
