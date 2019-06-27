@@ -7,7 +7,13 @@ const SearchBox: FunctionComponent<any> = ({
 }) => {
   const [query, setQuery] = useState(initial);
   return (
-    <div className="searchBoxWapper">
+    <form
+      className="searchBoxWapper"
+      onSubmit={e => {
+        onSubmit(query);
+        e.preventDefault();
+      }}
+    >
       <input
         className="searchInput flex-item"
         type="text"
@@ -17,7 +23,7 @@ const SearchBox: FunctionComponent<any> = ({
           setQuery(e.target.value)
         }
       />
-      <button className="searchBtn flex-item" onClick={() => onSubmit(query)}>
+      <button type="submit" className="searchBtn flex-item">
         {loading ? (
           <div className="lds-ripple">
             <div />
@@ -27,7 +33,7 @@ const SearchBox: FunctionComponent<any> = ({
           "Submit"
         )}
       </button>
-    </div>
+    </form>
   );
 };
 

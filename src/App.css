@@ -1,3 +1,7 @@
+body {
+  background: lightslategray;
+}
+
 .App {
   display: flex;
   height: 100%;
@@ -6,17 +10,12 @@
   align-items: center;
   background: lightslategray;
 }
-body {
-  background: lightslategray;
-}
 
 .searchHeader {
   display: flex;
   width: 100vw;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 20vh;
   background: lightblue;
   -webkit-box-shadow: 3px 4px 37px -12px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 3px 4px 37px -12px rgba(0, 0, 0, 0.5);
@@ -26,17 +25,20 @@ body {
 .contentWrapper {
   display: flex;
   justify-content: center;
-  width: 80vw;
+  width: 100%;
 }
 
 .searchBoxWapper {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   width: 80%;
 }
 
 .searchInput {
-  margin: 0;
+  flex-grow: 10;
+  width: auto;
+  max-width: auto;
   color: inherit;
   padding: 0px 10px;
   font-family: inherit;
@@ -46,7 +48,6 @@ body {
   border: none;
   border-radius: 0.4rem;
   transition: box-shadow 0.2s;
-  flex-grow: 3;
 }
 
 .searchInput:focus {
@@ -60,7 +61,6 @@ body {
 
 .searchBtn {
   flex-grow: 1;
-  width: 20%;
   background-color: Transparent;
   background-repeat: no-repeat;
   display: inline-block;
@@ -124,6 +124,8 @@ body {
 .content {
   transition: ease;
   margin-top: 20px;
+  justify-content: space-between;
+  width: 80%;
   display: flex;
   flex-wrap: wrap;
 }
@@ -142,6 +144,7 @@ body {
   -moz-box-shadow: 3px 4px 37px -12px rgba(0, 0, 0, 0.5);
   box-shadow: 3px 4px 37px -12px rgba(0, 0, 0, 0.5);
 }
+
 .gifCard {
   flex-grow: 1;
   display: flex;
@@ -151,7 +154,7 @@ body {
   border-radius: 10px;
   background: #fff;
   padding: 5px;
-  margin: 20px;
+  margin: 10px;
   transition: all 0.2s;
   box-shadow: 3px 4px 37px -12px rgba(0, 0, 0, 0.5);
 }
@@ -159,4 +162,5 @@ body {
 .gifCard:hover {
   box-shadow: 3px 4px 37px -12px rgba(0, 0, 0, 1);
   transform: scale(1.1) rotateZ(2deg);
+  z-index: 10;
 }

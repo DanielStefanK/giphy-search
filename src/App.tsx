@@ -1,18 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 import SearchBox from "./SearchBox";
 import GifList from "./GifList";
 import { Promise } from "q";
 const endpoint = "https://api.giphy.com/v1/gifs/search";
-const api_key = "s";
+const api_key = "s" || process.env.APIKEY;
 
 const App: React.FC = () => {
   const [lastQuery, setLastQuery] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [data, setData] = useState(null);
-  const [offset, setOffset] = useState(0);
+  const [data, setData] = useState([]);
+  const [pagination, setPagination] = useState({ total_count: 0, offset: 0 });
+
+  const loadMore = () => {
+    if (pagination.total_count > pagination.offset) {
+      setLoading(true);
+      loadData(lastQuery, pagination.offset + 25)
+        .then(res => {
+          setPagination(res.pagination);
+          setData([...data, ...res.data]);
+        })
+        .catch(err => {
+          setError(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  };
+
+  const isBottom = (el: any) => {
+    return el.getBoundingClientRect().bottom <= window.innerHeight;
+  };
+
+  const trackScrolling = () => {
+    const wrappedElement = document.getElementById("scroll");
+    if (isBottom(wrappedElement) && !isLoading) {
+      loadMore();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("scroll", trackScrolling);
+    return () => {
+      document.removeEventListener("scroll", trackScrolling);
+    };
+  });
 
   const onSubmit = (e: any) => {
     if (lastQuery !== e) {
@@ -21,6 +56,7 @@ const App: React.FC = () => {
       setLoading(true);
       loadData(e)
         .then(({ data, pagination }) => {
+          setPagination(pagination);
           setData(data);
         })
         .catch(err => {
@@ -37,7 +73,7 @@ const App: React.FC = () => {
       <div className="searchHeader">
         <SearchBox onSubmit={onSubmit} loading={isLoading} />
       </div>
-      <div className="contentWrapper">
+      <div className="contentWrapper" id="scroll">
         {error ? (
           <div className="errorBox content">Could not fetch GIFs</div>
         ) : data ? (
@@ -58,7 +94,10 @@ const App: React.FC = () => {
   );
 };
 
-const loadData = (query: string, offset: number = 0): Promise<any> => {
+const loadData = (
+  query: string,
+  offset: number = 0
+): Promise<{ data: never[]; pagination: any }> => {
   return Promise<any>((resolve, reject) => {
     return fetch(
       `${endpoint}?api_key=${api_key}&q=${encodeURIComponent(
