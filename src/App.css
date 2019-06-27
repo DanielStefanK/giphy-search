@@ -92,6 +92,7 @@ body {
 .searchBtn:hover .lds-ripple div {
   border: 4px solid lightblue;
 }
+
 .lds-ripple div {
   position: absolute;
   border: 4px solid #fff;

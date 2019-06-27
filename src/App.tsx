@@ -5,7 +5,7 @@ import SearchBox from "./SearchBox";
 import GifList from "./GifList";
 import { Promise } from "q";
 const endpoint = "https://api.giphy.com/v1/gifs/search";
-const api_key = "s" || process.env.REACT_APP_APIKEY;
+const api_key = process.env.REACT_APP_APIKEY || "NA";
 
 const App: React.FC = () => {
   const [lastQuery, setLastQuery] = useState("");
